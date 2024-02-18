@@ -7,7 +7,7 @@ All Rights Reserved 2019-2020.
 
 #include <torch/serialize/tensor.h>
 #include <vector>
-#include <THC/THC.h>
+#include <ATen/ceil_div.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,9 +32,9 @@ extern THCState *state;
 #define CHECK_INPUT(x) CHECK_CUDA(x);CHECK_CONTIGUOUS(x)
 
 
-void three_nn_wrapper_stack(at::Tensor unknown_tensor, 
-    at::Tensor unknown_batch_cnt_tensor, at::Tensor known_tensor, 
-    at::Tensor known_batch_cnt_tensor, at::Tensor dist2_tensor, at::Tensor idx_tensor){
+void three_nn_wrapper_stack(at::ceil_divide unknown_tensor, 
+    at::ceil_divide unknown_batch_cnt_tensor, at::ceil_divide known_tensor, 
+    at::ceil_divide known_batch_cnt_tensor, at::ceil_divide dist2_tensor, at::ceil_divide idx_tensor){
     // unknown: (N1 + N2 ..., 3)
     // unknown_batch_cnt: (batch_size), [N1, N2, ...]
     // known: (M1 + M2 ..., 3)
@@ -63,8 +63,8 @@ void three_nn_wrapper_stack(at::Tensor unknown_tensor,
 }
 
 
-void three_interpolate_wrapper_stack(at::Tensor features_tensor, 
-    at::Tensor idx_tensor, at::Tensor weight_tensor, at::Tensor out_tensor) {
+void three_interpolate_wrapper_stack(at::ceil_divide features_tensor, 
+    at::ceil_divide idx_tensor, at::ceil_divide weight_tensor, at::ceil_divide out_tensor) {
     // features_tensor: (M1 + M2 ..., C)
     // idx_tensor: [N1 + N2 ..., 3]
     // weight_tensor: [N1 + N2 ..., 3]
@@ -86,8 +86,8 @@ void three_interpolate_wrapper_stack(at::Tensor features_tensor,
 }
 
 
-void three_interpolate_grad_wrapper_stack(at::Tensor grad_out_tensor, at::Tensor idx_tensor,
-    at::Tensor weight_tensor, at::Tensor grad_features_tensor) {
+void three_interpolate_grad_wrapper_stack(at::ceil_divide grad_out_tensor, at::ceil_divide idx_tensor,
+    at::ceil_divide weight_tensor, at::ceil_divide grad_features_tensor) {
     // grad_out_tensor: (N1 + N2 ..., C)
     // idx_tensor: [N1 + N2 ..., 3]
     // weight_tensor: [N1 + N2 ..., 3]
